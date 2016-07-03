@@ -1,0 +1,277 @@
+<!--HTML-->
+<HTML>
+    <HEAD>
+<link rel="stylesheet" href="css/jquery.mobile-1.4.5.css" type="text/css"/>
+<link rel="stylesheet" href="css/jquery.mobile.theme-1.4.5.min.css" type="text/css"  />
+<link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" type="text/css" />
+<script type="text/javascript" src="js/jquery-2.2.0.min.js" ></script>
+<script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js" ></script>
+<script type="text/javascript">
+            
+document.addEventListener("deviceready", function (){
+	
+        $("#btnGuardar").tap(function (){
+	   var id=$("#txtId").val();	
+	   var nombre=$("#txtNombreProducto").val();	
+	   var marca=$("#txtMarca").val();
+	   var precio=$("#txtPrecio").val();
+            var cantidad=$("#txtCant").val();
+		$.ajax({
+			type: "POST",
+			url:"http://moviles2.esy.es/Guardar.php",
+			data:"id="+id+"&Nom="+nombre+"&Marc="+marca+"&Precio="+precio+"&Cant="+cantidad,
+			success: function (datos){
+				alert(datos);
+			}
+		});
+	});
+        
+        $("#btnConsultar").tap(function(){
+            
+            $.ajax({
+                type: "POST",
+                url: "http://moviles2.esy.es/consultarTodo.php",
+                data:"",
+                success: function (data){
+                    var reg =$.parseJSON (data);
+                    var datos=$("#resConsulta");
+                    datos.html('<table border ="1" whidth="100" id = "tbl1"><th>id</th><th>nombre</th><th>marca</th><th>precio</th> ');
+                    var fila=$("#tbl1");
+                    for(var i in reg){
+                        fila.append('<tr><td>'+reg[i].id+'</td><td>'+reg[i].Nom+'</td><td>'+reg[i].Marc+'</td><td>'+reg[i].Precio+'</td><td>'+reg[i].Cant+'</td></tr>');
+                        
+                    }
+                    fila.append('</table>');
+                }
+                
+            });
+        });
+        
+        
+        $("#btnConsultarID").tap(function (){
+            var id=$("#txtIDConsult").val();
+            alert(id);
+            $.ajax({
+                type:"POST",
+                url:"http://moviles2.esy.es/ConsultaID.php",
+                data:"ID="+id,
+                success:function (respuesta){
+                    var reg=$.parseJSON(respuesta);
+                    var contenedor=$("#resConsultaID");
+                    contenedor.html('<table border ="1" whidth="100" id = "tbl2"><th>id</th><th>nombre</th><th>marca</th><th>precio</th><th>Cant</th> ');
+                    var fila=$("#tbl2");
+                    
+                    for(var i in reg){
+                        fila.append('<tr><td>'+reg[i].id+'</td><td>'+reg[i].Nom+'</td><td>'+reg[i].Marc+'</td><td>'+reg[i].Precio+'</td><td>'+reg[i].Cant+'</td></tr>');    
+                    }
+                     fila.append('</table>');
+                }
+            })
+            
+        })
+        
+        
+        $("#btnEliminarID").tap(function (){
+            var id=$("#txtIDEliminar").val();
+            alert(id);
+            $.ajax({
+                type:"POST",
+                url:"http://moviles2.esy.es/Eliminar.php",
+                data:"ID="+id,
+                success:function (respuesta){
+                    var reg=$.parseJSON(respuesta);
+                    var contenedor=$("#resEliminaID");
+                    contenedor.html('<table border ="1" whidth="100" id = "tbl2"><th>id</th><th>nombre</th><th>marca</th><th>precio</th><th>Cant</th> ');
+                    var fila=$("#tbl3");
+                    
+                    for(var i in reg){
+                        fila.append('<tr><td>'+reg[i].id+'</td><td>'+reg[i].Nom+'</td><td>'+reg[i].Marc+'</td><td>'+reg[i].Precio+'</td><td>'+reg[i].Cant+'</td></tr>');    
+                    }
+                     fila.append('</table>');
+                }
+            })
+            
+        })
+     
+        
+        
+        
+        $("#btnConsultaAct").tap(function (){
+
+			$.ajax({
+				type:"POST",
+				url:"http://moviles2.esy.es/consultarTodo.php",
+				data:"",
+				success: function(datos){
+					var reg=$.parseJSON(datos);
+					var result=$("#todosRegAct");
+					result.html('<table border="1"id="tb4"><th>Id</th><th>Nombre</th><th>Marca</th><th>Precio</th><th>Cantidad</th>');
+					var fila=$("#tb4");
+					for(var i in reg){
+						fila.append('<tr><td>'+reg[i].id+'</td><td>'+reg[i].Nom+'</td><td>'+reg[i].Marc+'</td><td>'+reg[i].Precio+'</td><td>'+reg[i].Cant+'</td><tr>');
+						}
+					fila.append('</table>');
+					}
+			});
+		});
+
+		$("#btnCargDatos").tap(function (){
+			var id=$("#idRegAct").val();
+			$.ajax({
+				type:"POST",
+				url:"http://moviles2.esy.es/ConsultaID.php",
+				data:"id="+id,
+				success: function(datos){
+					//alert("Respuesta:"+datos);
+					var resp=$.parseJSON(datos);
+					var controles=$("#datIDAct");
+					controles.html('ID:<input type="text" id="id1" disabled="true"/><br />Nombre:<input type="text" id="nombre1" /><br />Marca:<input type="text" id="marca1" /><br />Precio:<input type="text" id="precio1" /><br />Cantidad:<input type="text" id="cantidad1" /><br />');
+					$("#id1").val(resp[0].Id);
+					$("#nombre1").val(resp[0].Nombre);
+					$("#marca1").val(resp[0].Marca);
+					$("#precio1").val(resp[0].Precio);
+					$("#cantidad1").val(resp[0].Cantidad);
+				}
+			});
+		});
+
+		$("#btnActId").tap(function (){
+			alert("listo");
+			var id=$("#id1").val();
+			var nombre=$("#nombre1").val();
+			var marca=$("#marca1").val();
+			var precio=$("#precio1").val();
+			var cantidad=$("#cantidad1").val();
+			
+
+			if(nombre=="" || marca=="" || precio=="" ||cantidad==""){
+				alert("Favor de registrar valores en todos los campos");
+			}else{
+					var p=parseFloat(precio);
+					var e=parseInt(exist);
+
+					$.ajax({
+						type:"POST",
+						url:"http://moviles2.esy.es/GuardarAct.php",
+						data:"id="+id+"&Nom="+nombre+"&Marc="+marca+"&Precio="+precio+"&Cant="+cantidad,
+						success: exeGuardarAct
+					});
+
+					function exeGuardarAct(mensaje){
+						alert("Respuesta:"+mensaje);
+					}
+
+				}
+		});
+	},false);
+</script>
+<style type="text/css">
+	p{
+		text-align:center;
+	}
+</style>
+</head>
+
+<body>
+
+    <div data-role="page" id="menu" data-theme="b">
+        <div data-role="header">
+            <p> menu principal</P>
+        </DIV>
+        <div data-role="content">
+            <a href="#insertar" data-role="button" data-transition="flip">Registrar Productos</a>
+            <a href="#consultar" data-role="button" data-transition="flip">Consultar Productos</a>
+            <a href="#consultarID" data-role="button" data-transition="flip">Consultar Productos Especificos</a>
+            <a href="#eliminarID" data-role="button" data-transition="flip">Eliminar
+                Productos Especificos</a>
+            <a href="#actualizar" data-role="button" data-transition="flip">Actualizar</a>
+        </div>
+    </div>
+        
+        
+        <div data-role="page" id="insertar">
+            <div data-role="header">
+          <a href="#menu" data-role="button" data-transition="slidedown">Regresar</A>  
+		<h1>Mi aplicacion</h1>
+            </div>
+        
+    
+	<div data-role="content">
+	   <input type="text" id="txtId" placeholder="Ingresa el id del producto" />
+	   <input type="text" id="txtNombreProducto" placeholder="Ingresa nombre del producto" />
+	   <input type="text" id="txtMarca" placeholder="Ingresa marca del producto" />
+           <input type="text" id="txtPrecio" placeholder="Ingresa precio del producto" />
+           <input type="text" id="txtCantidad" placeholder="Ingresacantidad" />
+	   <input type="button" id="btnGuardar" value="Guardar" />
+	</div>
+        <div data-role="footer">
+        <p> pie de pagina</P>
+	</div>
+        </div>
+    
+    <div data-role="page" id="consultar" data-theme="a">
+        <div data-role="header">
+        <p> Consultar productos</P>
+        </div>
+        <div data-role="content">
+            <input type="button" value="Consultar todo" id="btnConsultar" />
+            <DIV id="resConsulta">
+            </div>
+        </div>  
+        <div data-role="footer">
+            <p> pie de pagina</P>  
+             </div>
+    </div>
+    
+            <div data-role="page" id="consultarID" data-theme="a">
+        <div data-role="header">
+        <p> Consultar productos especificos</P>
+        </div>
+        <div data-role="content">
+            <input type="text" id="txtIDConsult" placeholder="Escribe el ID del producto" />
+            <input type="button" value="Consultar" id="btnConsultarID" />
+            <DIV id="resConsultaID">
+            </div>
+        </div>
+                
+            <div data-role="footer">
+            <p> pie de pagina</P>  
+             </div>
+        </div>    
+    
+    <div data-role="page" id="eliminarID" data-theme="a">
+        <div data-role="header">
+        <p> Eliminar productos especificos</P>
+        </div>
+        <div data-role="content">
+            <input type="text" id="txtIDEliminar" placeholder="Escribe el ID del producto" />
+            <input type="button" value="Eliminar" id="btnEliminarID" />
+            <DIV id="resEliminaID">
+            </div>
+        </div>
+                
+            <div data-role="footer">
+            <p> pie de pagina</P>  
+             </div>
+        </div>    
+    
+    <div data-role="page" id="actualizar" data-theme="a">
+	<div data-role="header">
+    	<p>Actualizar productos</p>
+    </div>
+    <div data-role="content">
+    	<input type="button" id="btnConsultaAct" value="Mostrar todo"  />
+        <div id="todosRegAct"></div>
+        <input type="text" id="idRegAct"  />
+        <input type="button" id="btnCargDatos" value="Cargar dato" />
+        <div id="datIDAct"></div>
+        <input type="button" id="btnActId" value="Guardar cambios" />
+    </div>
+        <div data-role="footer">
+    	<p>Pie de página</p>
+        </div>
+    </div>   
+      
+    
+</body>
+</html>
