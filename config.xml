@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.phonegap.helloworld" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>Practica 4 Almacenamiento remoto Mysql</name>
+    <name>Almacenamiento Mysql</name>
     <description>
         Almacenamiento de información de manera remota
     </description>
-    <author email="solrac_82_20@hotmail.com" href="http://www.itslibres.edu.mx/">
-        Ing. Carlos Aurelio Hernández M.
+    <author email="leonhard9494@gmail.com" href="http://www.itslibres.edu.mx/">
+        Ing. Leonardo Romero Ramos.
     </author>
     <content src="index.html" />
     <preference name="permissions" value="none" />
