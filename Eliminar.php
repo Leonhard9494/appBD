@@ -1,7 +1,7 @@
 <?php
 include "conexion.php";
 $id=$_POST["ID"];
-$sql="DELETE FROM movilesbd.equipos WHERE equipos.id='$id'";
+$sql="DELETE FROM u586952491_movil.equipos WHERE equipos.id='$id'";
 $res= mysqli_query ($conexion, $sql);
 if($res){
     $datos=array();

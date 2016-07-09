@@ -96,7 +96,6 @@ document.addEventListener("deviceready", function (){
      
         
         
-        
         $("#btnConsultaAct").tap(function (){
 
 			$.ajax({
@@ -117,21 +116,22 @@ document.addEventListener("deviceready", function (){
 		});
 
 		$("#btnCargDatos").tap(function (){
+                        alert("ejecucion correcta");
 			var id=$("#idRegAct").val();
 			$.ajax({
 				type:"POST",
 				url:"http://moviles2.esy.es/ConsultaID.php",
 				data:"id="+id,
 				success: function(datos){
-					//alert("Respuesta:"+datos);
+					alert("Respuesta:"+datos);
 					var resp=$.parseJSON(datos);
 					var controles=$("#datIDAct");
 					controles.html('ID:<input type="text" id="id1" disabled="true"/><br />Nombre:<input type="text" id="nombre1" /><br />Marca:<input type="text" id="marca1" /><br />Precio:<input type="text" id="precio1" /><br />Cantidad:<input type="text" id="cantidad1" /><br />');
-					$("#id1").val(resp[0].Id);
-					$("#nombre1").val(resp[0].Nombre);
-					$("#marca1").val(resp[0].Marca);
+					$("#id1").val(resp[0].id);
+					$("#nombre1").val(resp[0].Nom);
+					$("#marca1").val(resp[0].Marc);
 					$("#precio1").val(resp[0].Precio);
-					$("#cantidad1").val(resp[0].Cantidad);
+					$("#cantidad1").val(resp[0].Cant);
 				}
 			});
 		});
